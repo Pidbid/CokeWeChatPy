@@ -4,6 +4,7 @@ from datetime import datetime
 
 from flask import Flask
 from flask import render_template
+from flask import request
 from flask_sockets import Sockets
 
 from views.todos import todos_view
@@ -30,3 +31,8 @@ def echo_socket(ws):
     while True:
         message = ws.receive()
         ws.send(message)
+
+@app.route('/get_json', methods=['GET'])
+def get_json():
+    user_name = request.args.get('user_name')
+    return r'{"hello": "' + user_name + r'"}'
