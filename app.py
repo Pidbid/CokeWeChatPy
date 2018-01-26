@@ -15,7 +15,7 @@ import xml.etree.ElementTree as ET
 app = Flask(__name__)
 sockets = Sockets(app)
 
-wechat_token = 'steven2947'
+wechat_token = 'f92fcc6447b24983acbd5acb220cad2d'
 
 # 动态路由
 app.register_blueprint(todos_view, url_prefix='/todos')

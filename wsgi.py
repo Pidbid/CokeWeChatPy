@@ -6,9 +6,12 @@ monkey.patch_all()
 import os
 
 import leancloud
+import os
+import uuid
 
 from app import app
 from cloud import engine
+
 
 APP_ID = os.environ['LEANCLOUD_APP_ID']
 APP_KEY = os.environ['LEANCLOUD_APP_KEY']
@@ -25,7 +28,7 @@ app = engine.wrap(app)
 application = app
 
 # debug
-# app.debug = True
+app.debug = True
 
 if __name__ == '__main__':
     # 只在本地开发环境执行的代码
