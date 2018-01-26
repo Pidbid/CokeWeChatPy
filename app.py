@@ -1,4 +1,5 @@
 # coding: utf-8
+
 import hashlib
 import leancloud
 from datetime import datetime
@@ -9,6 +10,7 @@ from flask import request
 from flask_sockets import Sockets
 from views.todos import todos_view
 import xml.etree.ElementTree as ET
+
 
 app = Flask(__name__)
 sockets = Sockets(app)
@@ -25,11 +27,12 @@ def check_signature(signature, timestamp, nonce):
     tmp_arr = [token, timestamp, nonce]
     tmp_arr.sort()
     tmp_str = tmp_arr[0] + tmp_arr[1] + tmp_arr[2]
-    sha1_tmp_str = hashlib.sha1(tmp_str).hexdigest()
-    if (sha1_tmp_str == signature) :
+    sha1_tmp_str = hashlib.sha1(tmp_str.encode('utf-8')).hexdigest()
+    if sha1_tmp_str == signature:
         return True
-    else :
+    else:
         return False
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -68,11 +71,11 @@ def wechat():
     echostr = request.args.get('echostr', '')
 
     if request.method == 'GET':
-        if check_signature(signature, timestamp, nonce) :
+        if check_signature(signature, timestamp, nonce):
             return echostr
-        else :
+        else:
             return 'Not Valid!'
-    else :
+    else:
         # if check_signature(signature, timestamp, nonce) :
         xml_recv = ET.fromstring(request.data)
         ToUserName = xml_recv.find("ToUserName").text
@@ -81,4 +84,3 @@ def wechat():
         reply = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>"
         re_msg = (reply % (FromUserName, ToUserName, str(int(time.time())), Content))
         return re_msg
-
