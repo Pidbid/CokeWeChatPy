@@ -24,6 +24,8 @@ leancloud.use_master_key(False)
 app = engine.wrap(app)
 application = app
 
+# debug
+# app.debug = True
 
 if __name__ == '__main__':
     # 只在本地开发环境执行的代码
