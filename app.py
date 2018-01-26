@@ -83,4 +83,7 @@ def wechat():
         Content = xml_recv.find("Content").text
         reply = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>"
         re_msg = (reply % (FromUserName, ToUserName, str(int(time.time())), Content))
+        print(ToUserName)
+        print(FromUserName)
+        print(Content)
         return re_msg
